@@ -3,13 +3,20 @@ Detailed implemention of of Neural Network for educational purboses perpouses
 Backpropagation is implemented in boring detail such that derivative steps is taken carefully and without any implicit or hidden 
 details
 
+## backpropagation
+* https://blogs.msdn.microsoft.com/uk_faculty_connection/2017/07/04/how-to-implement-the-backpropagation-using-python-and-numpy/
+
+
 ## Softmax
 * https://stats.stackexchange.com/questions/235528/backpropagation-with-softmax-cross-entropy
 * https://algorithmsdatascience.quora.com/BackPropagation-a-collection-of-notes-tutorials-demo-and-codes
 * https://eli.thegreenplace.net/2016/the-softmax-function-and-its-derivative/
 * https://stackoverflow.com/questions/33541930/how-to-implement-the-softmax-derivative-independently-from-any-loss-function
 * https://eli.thegreenplace.net/2016/the-chain-rule-of-calculus/
-
+* https://stackoverflow.com/questions/40575841/numpy-calculate-the-derivative-of-the-softmax-function
+* https://en.wikipedia.org/wiki/Softmax_function#Artificial_neural_networks
+*  (?) http://www.wildml.com/2015/09/implementing-a-neural-network-from-scratch/
+* https://medium.com/@14prakash/back-propagation-is-very-simple-who-made-it-complicated-97b794c97e5c
 
 ## CNN
 * http://deeplearning.net/tutorial/lenet.html
@@ -33,6 +40,8 @@ details
 * https://www.analyticsvidhya.com/blog/2017/12/introduction-to-recurrent-neural-networks/
 * http://www.wildml.com/2015/10/recurrent-neural-networks-tutorial-part-3-backpropagation-through-time-and-vanishing-gradients/
 * https://machinelearningmastery.com/gentle-introduction-backpropagation-time/
+* https://github.com/pangolulu/rnn-from-scratch
 
-
+# Tensorflow
+* https://www.tensorflow.org/versions/master/get_started/
 
