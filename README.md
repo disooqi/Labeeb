@@ -1,6 +1,4 @@
-A machine learning engine designed and developed to be both easy use and code readabl. It a straight forward implememntation of different algorithms and techniques of machine learning.
-
-Detailed implemention of Neural Network for educational purboses 
+A machine learning engine designed and developed to be both easy to use and source code readable. It a straightforward implementation of different algorithms and techniques of machine learning in Python. You can use it for small projects and/or educational purposes.
 
 Backpropagation is implemented in boring detail such that derivative steps is taken carefully and without any implicit or hidden 
 details
