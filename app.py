@@ -1,8 +1,8 @@
 import scipy.io
-from classic.nn import NN, FullyConnectedLayer
-from classic.nn import Optimization
+from classic.nn import NN
+from optimization import Optimizer
 from data_preparation.dataset import MNIST_dataset
-import numpy as np
+
 
 if __name__ == '__main__':
     handwritten_digits = scipy.io.loadmat("data/ex3data1.mat")
@@ -12,7 +12,7 @@ if __name__ == '__main__':
     nn01.add_layer(25, activation='relu', dropout_keep_prob=1)
     nn01.add_output_layer()
 
-    gd_optimizer = Optimization(method='gradient-descent') # gd-with-momentum gradient-descent rmsprop adam
+    gd_optimizer = Optimizer(method='gradient-descent') # gd-with-momentum gradient-descent rmsprop adam
 
     gd_optimizer.minimize(nn01, epochs=100, mini_batch_size=512, learning_rate=.1, regularization_parameter=0, dataset=mnist)
 
