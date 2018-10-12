@@ -26,11 +26,11 @@ class FullyConnectedLayer(HiddenLayer):
         elif activation == 'relu':
             self.activation = self.relu
             self.dAdZ = self.relu_prime
-            self._He_initialization(n_in)
+            self._He_initialization(n_in) # this an Andrew Ng recommendation to use He for relu
         elif activation == 'tanh':
             self.activation = self.tanh
             self.dAdZ = self.tanh_prime
-            self._Xavier_initialization(n_in)
+            self._Xavier_initialization(n_in) # this an Andrew Ng recommendation to use He for leaky_relu
         elif activation == 'leaky_relu':
             self.activation = self.leaky_relu
             self.dAdZ = self.leaky_relu_prime
