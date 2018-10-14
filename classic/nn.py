@@ -1,5 +1,7 @@
 import numpy as np
 from scipy.special import expit, logit
+# import autograd.numpy as np  # Thinly-wrapped numpy
+from autograd import elementwise_grad
 
 
 class HiddenLayer:
@@ -18,23 +20,29 @@ class FullyConnectedLayer(HiddenLayer):
         self.n_units = n_units
         #  It means at every iteration you shut down each neuron of the layer with "1-keep_prob" probability.
         self.keep_prob = keep_prob
-        # todo (3): weight initialization should be in the Network class
+        # todo (3): weight initialization happens in the training phase and I guess it should be in a different class than here
         if activation == 'sigmoid':
             self.activation = self.sigmoid
             self.dAdZ = self.sigmoid_prime
+            # self.dAdZ = elementwise_grad(self.sigmoid)
             self._weights_initialization(n_in)
         elif activation == 'relu':
             self.activation = self.relu
             self.dAdZ = self.relu_prime
-            self._He_initialization(n_in) # this an Andrew Ng recommendation to use He for relu
+            self._He_initialization(n_in)  # this an Andrew Ng recommendation to use He for relu
         elif activation == 'tanh':
             self.activation = self.tanh
             self.dAdZ = self.tanh_prime
-            self._Xavier_initialization(n_in) # this an Andrew Ng recommendation to use He for leaky_relu
+            self._Xavier_initialization(n_in)  # this an Andrew Ng recommendation to use He for leaky_relu
         elif activation == 'leaky_relu':
             self.activation = self.leaky_relu
             self.dAdZ = self.leaky_relu_prime
             self._He_initialization(n_in)
+        elif activation == 'softmax':
+            self.activation = self.stable_softmax
+            self.dAdZ = self.softmax_prime
+            # self.dAdZ = elementwise_grad(self.stable_softmax)
+            self._weights_initialization(n_in)
 
         self.activation_type = activation
         self.output_layer = output_layer
@@ -73,7 +81,7 @@ class FullyConnectedLayer(HiddenLayer):
         :return:
         """
         Z_exp = np.exp(Z)
-        return Z_exp/np.sum(Z_exp, axis=0)
+        return Z_exp / np.sum(Z_exp, axis=0)
 
     @staticmethod
     def stable_softmax(Z):
@@ -87,12 +95,20 @@ class FullyConnectedLayer(HiddenLayer):
     def softmax_prime(A):
         """N/A
 
+        https://stackoverflow.com/questions/40575841/numpy-calculate-the-derivative-of-the-softmax-function
+        https://stackoverflow.com/questions/26511401/numpy-fastest-way-of-computing-diagonal-for-each-row-of-a-2d-array
         https://eli.thegreenplace.net/2016/the-softmax-function-and-its-derivative/
         # Kronecker delta function
         :param A:
         :return:
         """
-        pass
+        b = np.zeros((A.shape[0], A.shape[0], A.shape[1]))
+        diag = np.arange(A.shape[0])
+        b[diag, diag, :] = A
+
+        SM = A.reshape((-1, 1))
+        jac = np.diag(A) - np.dot(SM, SM.T)
+        return jac
 
     @staticmethod
     def sigmoid(Z):
@@ -164,12 +180,12 @@ class NN:
 
         self.layers.append(layer)
 
-    def add_output_layer(self):
+    def add_output_layer(self, activation='sigmoid'):
         if not self.layers:
-            self.add_layer(self.n_classes, activation='sigmoid')
+            self.add_layer(self.n_classes, activation=activation)
             self.layers[-1].output_layer = True
         if not self.layers[-1].output_layer:
-            self.add_layer(self.n_classes, activation='sigmoid')
+            self.add_layer(self.n_classes, activation=activation)
             self.layers[-1].output_layer = True
         else:
             # TODO: you should raise an error and message that says you need to delete existing output_layer
@@ -177,6 +193,7 @@ class NN:
 
     @staticmethod
     def calculate_single_layer_gradients(dLdA, layer_cache, compute_dLdA_1=True):
+        # todo (4): this function works in the training phase and I guess it should be in a different class than here
         '''
         :param dLdA:
         :return: dJdA_1, dJdW, dJdb
@@ -196,7 +213,14 @@ class NN:
 
         # dw = dz . a[l-1]
         dZdW = layer_cache.A_l_1
-        dJdW = np.dot(dLdZ, dZdW.T) / dLdA.shape[1]  # this is two steps in one line; getting dLdw and then dJdW
+
+        # this is two steps in one line; getting dLdw and then dJdW
+        # if you want to elaborate on that,
+        # then dLdW = dLdZ * dZdW
+        # followed by dJdW = np.sum(dLdW, axis=1, keepdims=True) / dLdA.shape[1]
+        # see https://www.coursera.org/learn/neural-networks-deep-learning/lecture/udiAq/gradient-descent-on-m-examples
+        # dLdA.shape[1] is m and dLdZ, dZdW is n*m dimension
+        dJdW = np.dot(dLdZ, dZdW.T) / dLdA.shape[1]
         dJdb = np.sum(dLdZ, axis=1, keepdims=True) / dLdA.shape[1]
         dLdA_1 = None
         if compute_dLdA_1:
