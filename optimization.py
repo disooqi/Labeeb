@@ -24,8 +24,8 @@ class Optimizer:
         self.method = method
         self.VsnSs = list()
         if loss == 'cross_entropy':
-            self.loss = self.cross_entropy_loss
-            self.activation_prime = self.cross_entropy_loss_prime
+            self.loss = self.binary_cross_entropy_loss
+            self.activation_prime = self.binary_cross_entropy_loss_prime
 
         if method == 'gradient-descent':
             self.optimizer = self.gradient_descent
@@ -136,7 +136,7 @@ class Optimizer:
         return W, b
 
     @staticmethod
-    def cross_entropy_loss(y, a):
+    def binary_cross_entropy_loss(y, a):
         # http://christopher5106.github.io/deep/learning/2016/09/16/about-loss-functions-multinomial-logistic-logarithm-cross-entropy-square-errors-euclidian-absolute-frobenius-hinge.html
         # https://stats.stackexchange.com/questions/260505/machine-learning-should-i-use-a-categorical-cross-entropy-or-binary-cross-entro
         # here we penalize every class even the zero ones
@@ -150,7 +150,7 @@ class Optimizer:
         return - np.sum(y * np.log(a), axis=0, keepdims=True)
 
     @staticmethod
-    def cross_entropy_loss_prime(y, a):
+    def binary_cross_entropy_loss_prime(y, a):
         return -y / a + (1 - y) / (1 - a)
 
     @staticmethod
