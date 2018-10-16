@@ -20,12 +20,15 @@ logger2.setLevel(logging.INFO)
 
 
 class Optimizer:
-    def __init__(self, loss='cross_entropy', method='gradient-descent'):
+    def __init__(self, loss='binary_cross_entropy', method='gradient-descent'):
         self.method = method
         self.VsnSs = list()
-        if loss == 'cross_entropy':
+        if loss == 'binary_cross_entropy':
             self.loss = self.binary_cross_entropy_loss
-            self.activation_prime = self.binary_cross_entropy_loss_prime
+            self.loss_prime = self.binary_cross_entropy_loss_prime
+        elif loss == 'multinomial_cross_entropy':
+            self.loss = self.multinomial_cross_entropy_loss
+            self.loss_prime = self.multinomial_cross_entropy_loss_prime
 
         if method == 'gradient-descent':
             self.optimizer = self.gradient_descent
@@ -144,7 +147,17 @@ class Optimizer:
         return -(y * np.log(a) + (1 - y) * np.log(1 - a))
 
     @staticmethod
-    def softmax_loss(y, a):
+    def multinomial_cross_entropy_loss(y, a):
+        """ Multinomial Cross Entropy Loss function
+
+        Calculate the error in multiclass application where the output classes are dependent on each others and the
+        instance should belong to one class only, this loss function is a perfect match for SOFTMAX func where it
+        calculate the discrete probability distribution of the output classes
+        :param y: is the target probabilities of the class, y.shape = (n, m) where (n) is classes count and (m) is the
+        instance count
+        :param a: is the probabilities of the classes as predicted by the model a.shape is also (n, m)
+        :return: a vector of instances' loss values
+        """
         # here we penalize only the targeted class and this is intuitive because they are all dependent i.e. if targeted
         # error is reduced the rest will give less probability because of the softmax relation
         return - np.sum(y * np.log(a), axis=0, keepdims=True)
@@ -154,7 +167,7 @@ class Optimizer:
         return -y / a + (1 - y) / (1 - a)
 
     @staticmethod
-    def softmax_loss_prime(y, a):
+    def multinomial_cross_entropy_loss_prime(y, a):
         return -np.sum(y/a)
 
     @staticmethod
@@ -193,7 +206,7 @@ class Optimizer:
 
         with np.errstate(invalid='raise'):
             try:
-                dLdA = self.activation_prime(y, A)
+                dLdA = self.loss_prime(y, A)
             except FloatingPointError:
                 raise
         # To avoid the confusion: reversed() doesn't modify the list. reversed() doesn't make a copy of the list
