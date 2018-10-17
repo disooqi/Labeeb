@@ -1,7 +1,26 @@
+import numpy as np
 import scipy.io
 from natasy.neural_network.networks import FullyConnectedNetwork
 from natasy.optimization import Optimizer
-from natasy.data_preparation.dataset import MNIST_dataset
+from natasy.data_preparation.dataset import Dataset
+
+
+class MNIST_dataset(Dataset):
+    def __init__(self, X, y, dev_size=0.25):
+        """
+
+        :param X: examples (excpected to be in the shape of n*m)
+        :param y:
+        :param dev_size:
+        """
+        super().__init__(X, y, dev_size, name='MNIST')
+
+    @staticmethod
+    def prepare_target(y):
+        classes = np.unique(y)
+        incidence_y = np.zeros((classes.size, y.size))
+        incidence_y[y.ravel() - 1, np.arange(y.size)] = 1  # (5000, 10)
+        return incidence_y, classes
 
 
 if __name__ == '__main__':
@@ -12,7 +31,7 @@ if __name__ == '__main__':
 
     nn01 = FullyConnectedNetwork(n_features=400, n_classes=10)
     nn01.add_layer(33, activation='leaky_relu', dropout_keep_prob=1)
-    nn01.add_output_layer(activation='sigmoid')
+    nn01.add_output_layer(activation='softmax')
 
 
 

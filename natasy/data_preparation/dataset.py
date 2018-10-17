@@ -53,23 +53,7 @@ class Dataset:
 
 
 
-class MNIST_dataset(Dataset):
-    def __init__(self, X, y, dev_size=0.25):
 
-        """dfg dg gghfgh  hjghjhggdgf dfgghgkj dfgdgfsgghghk dgfd
-
-        :param X: examples (excpected to be in the shape of n*m)
-        :param y:
-        :param dev_size:
-        """
-        super().__init__(X, y, dev_size, name='MNIST')
-
-    @staticmethod
-    def prepare_target(y):
-        classes = np.unique(y)
-        incidence_y = np.zeros((classes.size, y.size))
-        incidence_y[y.ravel() - 1, np.arange(y.size)] = 1  # (5000, 10)
-        return incidence_y, classes
 
 
 
