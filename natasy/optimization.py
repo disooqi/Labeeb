@@ -220,6 +220,20 @@ class Optimizer:
 
     def minimize(self, network, epochs=1, mini_batch_size=0, learning_rate=0.1, regularization_parameter=0,
                  momentum=0.9, beta2=0.999, learning_rate_decay=0, dataset=None):
+        """ An optimization function try to minimize the error value of the cost function
+
+        :param network: neural network created by func FullyConnectedNetwork()
+        :param epochs: Number of iteration on the entire training dataset
+        :param mini_batch_size: size of minibatch (default is 64). It is recommended to be in the form of (2**k)
+        :param learning_rate: Learning rate parameter. It should be less than 1. It identify of much of a step should
+        the gradient take.
+        :param regularization_parameter:
+        :param momentum:
+        :param beta2:
+        :param learning_rate_decay:
+        :param dataset:
+        :return:
+        """
         bef = time.time()
         for layer in network.layers:
             self.VsnSs.append({"Vdw": np.zeros_like(layer.W), "Vdb": np.zeros_like(layer.b),
