@@ -8,7 +8,7 @@ from collections import namedtuple
 #the function shuffles the dataset
 
 class Dataset:
-    def __init__(self, X, y, dev_size, name=None, shuffle=True):
+    def __init__(self, X, y, dev_size, name=None, shuffle=True, normalize_input_features=True):
         self.name = name
         self.dev_size = dev_size
         self.shuffle = shuffle
@@ -16,11 +16,13 @@ class Dataset:
 
         X_train, X_dev, y_train, y_dev = train_test_split(X.T, y.T, shuffle=shuffle, test_size=dev_size)
         self.y_train, self.y_dev = y_train.T, y_dev.T
+        self.X_train, self.X_dev = X_train.T, X_dev.T
 
-        self.X_train, self.mu, self.sigma = self._normalize_input_features(X_train.T)
         self.n, self.m = self.X_train.shape
 
-        self.X_dev = self._normalize_testset(X_dev.T, self.mu, self.sigma)
+        if normalize_input_features:
+            self.X_train, self.mu, self.sigma = self._normalize_input_features(X_train)
+            self.X_dev = self._normalize_testset(X_dev, self.mu, self.sigma)
 
     @staticmethod
     def prepare_target(y):
