@@ -19,11 +19,17 @@ class FullyConnectedNetwork:
         self.layers.append(layer)
 
     def add_output_layer(self, activation='sigmoid'):
+        if self.n_classes == 2:
+            n_units = 1
+        elif self.n_classes < 2:
+            pass # TODO: This should be an error on the data
+        else:
+            n_units = self.n_classes
         if not self.layers:
-            self.add_layer(self.n_classes, activation=activation)
+            self.add_layer(n_units=n_units, activation=activation)
             self.layers[-1].output_layer = True
         if not self.layers[-1].output_layer:
-            self.add_layer(self.n_classes, activation=activation)
+            self.add_layer(n_units=n_units, activation=activation)
             self.layers[-1].output_layer = True
         else:
             # TODO: you should raise an error and message that says you need to delete existing output_layer
