@@ -21,8 +21,8 @@ class Dataset:
         self.n, self.m = self.X_train.shape
 
         if normalize_input_features:
-            self.X_train, self.mu, self.sigma = self._normalize_input_features(X_train)
-            self.X_dev = self._normalize_testset(X_dev, self.mu, self.sigma)
+            self.X_train, self.mu, self.sigma = self._normalize_input_features(self.X_train)
+            self.X_dev = self._normalize_testset(self.X_dev, self.mu, self.sigma)
 
     @staticmethod
     def prepare_target(y):

@@ -25,10 +25,11 @@ class FullyConnectedNetwork:
             pass # TODO: This should be an error on the data
         else:
             n_units = self.n_classes
+
         if not self.layers:
             self.add_layer(n_units=n_units, activation=activation)
             self.layers[-1].output_layer = True
-        if not self.layers[-1].output_layer:
+        elif not self.layers[-1].output_layer:
             self.add_layer(n_units=n_units, activation=activation)
             self.layers[-1].output_layer = True
         else:
@@ -73,17 +74,7 @@ class FullyConnectedNetwork:
             dLdA_1 = np.dot(dZdA_1.T, dLdZ)  # computing dLd(A-1)
         return dLdA_1, dJdW, dJdb
 
-    def accuracy(self, X, y):
-        # You only use dropout during training. Don't use dropout (randomly eliminate nodes) during test time.
-        A = X
-        for layer in self.layers:
-            Z = np.dot(layer.W, A) + layer.b
-            A = layer.activation(Z)
-        else:
-            y = y.argmax(axis=0) + 1
-            prediction = A.argmax(axis=0) + 1
-            res = np.equal(prediction, y)
-            return 100 * np.sum(res) / y.size
+
 
 
 if __name__ == '__main__':
