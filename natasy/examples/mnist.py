@@ -22,6 +22,25 @@ class MNIST_dataset(Dataset):
         incidence_y[y.ravel() - 1, np.arange(y.size)] = 1  # (5000, 10)
         return incidence_y, classes
 
+    def accuracy(self, network, training_accuracy=False):
+        # You only use dropout during training. Don't use dropout (randomly eliminate nodes) during test time.
+        if training_accuracy:
+            X, y = self.X_train, self.y_train
+        else:
+            X, y = self.X_dev, self.y_dev
+
+        A = X
+        for layer in network.layers:
+            Z = np.dot(layer.W, A) + layer.b
+            A = layer.activation(Z)
+        else:
+            y = y.argmax(axis=0) + 1
+            prediction = A.argmax(axis=0) + 1
+            res = np.equal(prediction, y)
+            return 100 * np.sum(res) / y.size
+
+
+
 
 if __name__ == '__main__':
     handwritten_digits = scipy.io.loadmat("natasy/data/ex3data1.mat")
@@ -31,13 +50,13 @@ if __name__ == '__main__':
 
     nn01 = FullyConnectedNetwork(n_features=400, n_classes=10)
     nn01.add_layer(33, activation='leaky_relu', dropout_keep_prob=1)
-    nn01.add_output_layer(activation='softmax')
+    nn01.add_output_layer(activation='sigmoid')
 
 
 
     gd_optimizer = Optimizer(loss='binary_cross_entropy', method='gradient-descent') # gd-with-momentum gradient-descent rmsprop adam
     gd_optimizer.minimize(nn01, epochs=100, mini_batch_size=512, learning_rate=.1, regularization_parameter=0, dataset=mnist)
 
-    train_acc = nn01.accuracy(mnist.X_train, mnist.y_train)
-    dev_acc = nn01.accuracy(mnist.X_dev, mnist.y_dev)
+    train_acc = mnist.accuracy(nn01, training_accuracy=True)
+    dev_acc = mnist.accuracy(nn01)
     print('train acc: {:.2f}%, Dev acc: {:.2f}%'.format(train_acc, dev_acc))

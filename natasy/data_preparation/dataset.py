@@ -53,6 +53,9 @@ class Dataset:
         standard_normalized_X = np.divide(centered_X, sigma, where=sigma != 0)
         return standard_normalized_X
 
+    def accuracy(self, network, training_accuracy):
+        raise NotImplementedError
+
 
 
 
