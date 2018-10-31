@@ -251,7 +251,7 @@ class Optimizer:
             aft = time.time()
             cost = self.cost(network, dataset.X_train, dataset.y_train, lmbda=regularization_parameter)
             logger.debug('-' * 80)
-            logger.debug('| Summary: Training time: {:.2f} SECs, Finish error: {:.5f}'.format(aft - bef,
+            logger.debug('| Summary: Training time: {:.2f} SECs, Finish training error: {:.5f}'.format(aft - bef,
                                  self.cost(network, dataset.X_train, dataset.y_train, lmbda=regularization_parameter)))
             logger.debug('-' * 80)
 
