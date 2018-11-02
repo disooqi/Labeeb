@@ -45,6 +45,10 @@ class FullyConnectedLayer(HiddenLayer):
         self.activation_type = activation
         self.output_layer = output_layer
 
+    def _zeros_initialization(self, n_in):
+        self.W = np.zeros((self.n_units, n_in))
+        self.b = np.zeros((self.n_units, 1))
+
     def _weights_initialization(self, n_in):
         # multiplying W by a small number makes the learning fast
         # however from a practical point of view when multiplied by 0.01 using l>2 the NN does not converge
