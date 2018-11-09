@@ -1,6 +1,6 @@
 import numpy as np
 from natasy.data_preparation.dataset import Dataset
-from natasy.neural_network.networks import FullyConnectedNetwork
+from natasy.neural_network.networks import NeuralNetwork
 from natasy.optimization import Optimizer
 
 
@@ -47,7 +47,7 @@ if __name__ == '__main__':
 
     bdata = MyDataset(dev_size=0)
 
-    myNN = FullyConnectedNetwork(n_features=bdata.n, n_classes=bdata.classes.size)
+    myNN = NeuralNetwork(n_features=bdata.n, n_classes=bdata.classes.size)
     # myNN.add_layer(4, activation='relu', dropout_keep_prob=1)
     myNN.add_output_layer()
 
