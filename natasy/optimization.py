@@ -142,6 +142,7 @@ class Optimizer:
     def binary_cross_entropy_loss(y, a):
         # http://christopher5106.github.io/deep/learning/2016/09/16/about-loss-functions-multinomial-logistic-logarithm-cross-entropy-square-errors-euclidian-absolute-frobenius-hinge.html
         # https://stats.stackexchange.com/questions/260505/machine-learning-should-i-use-a-categorical-cross-entropy-or-binary-cross-entro
+        # https://stackoverflow.com/questions/41469647/outer-product-of-each-column-of-a-2d-array-to-form-a-3d-array-numpy
         # here we penalize every class even the zero ones
         # the classes here are independent i.e you can reduce the error of one without affecting the other
         return -(y * np.log(a) + (1 - y) * np.log(1 - a))
@@ -152,7 +153,7 @@ class Optimizer:
 
         Calculate the error in multiclass application where the output classes are dependent on each others and the
         instance should belong to one class only, this loss function is a perfect match for SOFTMAX func where it
-        calculate the discrete probability distribution of the output classes
+        calculate the discrete probability distribution of the output classes.
         :param y: is the target probabilities of the class, y.shape = (n, m) where (n) is classes count and (m) is the
         instance count
         :param a: is the probabilities of the classes as predicted by the model a.shape is also (n, m)
@@ -168,7 +169,9 @@ class Optimizer:
 
     @staticmethod
     def multinomial_cross_entropy_loss_prime(y, a):
-        return -np.sum(y/a)
+        # a[y != 1] = 1
+        # -(y / a)
+        return -np.divide(y, a, dtype=np.float128)
 
     @staticmethod
     def regularization_term(network, m, lmbda):
@@ -228,7 +231,7 @@ class Optimizer:
         :param learning_rate: Learning rate parameter. It should be less than 1. It identify of much of a step should
         the gradient take.
         :param regularization_parameter:
-        :param momentum:
+        :param momentum (beta 1):
         :param beta2:
         :param learning_rate_decay:
         :param dataset:
