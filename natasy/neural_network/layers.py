@@ -94,23 +94,29 @@ class FullyConnectedLayer(HiddenLayer):
         return Z_exp / np.sum(Z_exp, axis=0)
 
     @staticmethod
-    def softmax_prime(A):
-        """N/A
+    def softmax_prime(S):
+        """Computes the gradient of the softmax function.
 
         https://stackoverflow.com/questions/40575841/numpy-calculate-the-derivative-of-the-softmax-function
         https://stackoverflow.com/questions/26511401/numpy-fastest-way-of-computing-diagonal-for-each-row-of-a-2d-array
+        https://stackoverflow.com/questions/41469647/outer-product-of-each-column-of-a-2d-array-to-form-a-3d-array-numpy
         https://eli.thegreenplace.net/2016/the-softmax-function-and-its-derivative/
         # Kronecker delta function
-        :param A:
-        :return:
+        :param S: (T, 1) array of input values where the gradient is computed. T is the
+           number of output classes.
+        :return: dAdZ (T, T) the Jacobian matrix of softmax(Z) at the given Z. D[i, j]
+        is DjSi - the partial derivative of Si w.r.t. input j.
         """
-        b = np.zeros((A.shape[0], A.shape[0], A.shape[1]))
-        diag = np.arange(A.shape[0])
-        b[diag, diag, :] = A
+        # -SjSi can be computed using an outer product between Sz and itself. Then
+        # we add back Si for the i=j cases by adding a diagonal matrix with the
+        # values of Si on its diagonal.
+        dAdZ_struct = np.zeros((S.shape[0], S.shape[0], S.shape[1]))
+        diag_indecies = np.arange(S.shape[0])
+        dAdZ_struct[diag_indecies, diag_indecies, :] = S
 
-        SM = A.reshape((-1, 1))
-        jac = np.diag(A) - np.dot(SM, SM.T)
-        return jac
+        # D = -np.outer(S, S) + np.diag(S.flatten())
+        dAdZ = dAdZ_struct - S[:, None, :] * S
+        return dAdZ
 
     @staticmethod
     def sigmoid(Z):
