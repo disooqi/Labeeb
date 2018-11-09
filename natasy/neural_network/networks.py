@@ -2,7 +2,7 @@ import numpy as np
 from .layers import FullyConnectedLayer
 
 
-class FullyConnectedNetwork:
+class NeuralNetwork:
     def __init__(self, n_features, n_classes):
         self.n = n_features
         self.n_classes = n_classes
@@ -54,7 +54,11 @@ class FullyConnectedNetwork:
         # its derivative  dA[1]dA[1]  is also scaled by the same keep_prob).
         dLdA = np.multiply(dLdA, layer_cache.D) / layer_cache.keep_prob
         dAdZ = layer_cache.dAdZ(layer_cache.A)
-        dLdZ = dLdA * dAdZ  # Element-wise product
+
+        if len(dAdZ.shape) == 3:
+            dLdZ = np.einsum('ik,ijk->jk',dLdA, dAdZ) # dot product (element-wise and then sum over columns)
+        else:
+            dLdZ = dLdA * dAdZ  # Element-wise product
 
         # dw = dz . a[l-1]
         dZdW = layer_cache.A_l_1
