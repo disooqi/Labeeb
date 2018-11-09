@@ -2,17 +2,26 @@ import numpy as np
 from scipy.special import expit, logit
 
 
-class HiddenLayer:
+class NeuralNetworkLayer:
     def __init__(self):
         pass
 
-
-class ConvLayer(HiddenLayer):
+class HiddenLayer(NeuralNetworkLayer):
     def __init__(self):
         super().__init__()
 
 
-class FullyConnectedLayer(HiddenLayer):
+class OutputLayer(NeuralNetworkLayer):
+    def __init__(self):
+        super().__init__()
+
+
+class ConvLayer(NeuralNetworkLayer):
+    def __init__(self):
+        super().__init__()
+
+
+class FullyConnectedLayer(NeuralNetworkLayer):
     def __init__(self, n_units, n_in, activation='sigmoid', output_layer=False, keep_prob=1):
         super().__init__()
         self.n_units = n_units
