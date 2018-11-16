@@ -8,6 +8,8 @@ details
 
 
 ## Softmax
+* https://www.ics.uci.edu/~pjsadows/notes.pdf
+* https://ai.stackexchange.com/questions/6343/how-do-i-implement-softmax-forward-propagation-and-backpropagation-to-replace-si?newreg=955c85b8c8704de1be03d7b566f51405
 * https://stats.stackexchange.com/questions/235528/backpropagation-with-softmax-cross-entropy
 * https://algorithmsdatascience.quora.com/BackPropagation-a-collection-of-notes-tutorials-demo-and-codes
 * https://eli.thegreenplace.net/2016/the-softmax-function-and-its-derivative/
