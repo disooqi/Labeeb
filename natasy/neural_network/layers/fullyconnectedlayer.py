@@ -1,24 +1,6 @@
 import numpy as np
 from scipy.special import expit, logit
-
-
-class NeuralNetworkLayer:
-    def __init__(self):
-        pass
-
-class HiddenLayer(NeuralNetworkLayer):
-    def __init__(self):
-        super().__init__()
-
-
-class OutputLayer(NeuralNetworkLayer):
-    def __init__(self):
-        super().__init__()
-
-
-class ConvLayer(NeuralNetworkLayer):
-    def __init__(self):
-        super().__init__()
+from natasy.neural_network.layers import NeuralNetworkLayer
 
 
 class FullyConnectedLayer(NeuralNetworkLayer):
