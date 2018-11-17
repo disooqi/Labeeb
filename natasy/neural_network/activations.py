@@ -43,7 +43,9 @@ def _sigmoid_prime(A):
 
 
 def _tanh(Z):
-    return (np.exp(Z) - np.exp(-Z)) / (np.exp(Z) + np.exp(-Z))
+    a = np.exp(Z)
+    b = np.exp(-Z)
+    return (a - b) / (a + b)
 
 
 def _tanh_prime(A):
