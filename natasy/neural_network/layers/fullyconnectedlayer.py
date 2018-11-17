@@ -1,6 +1,5 @@
 import numpy as np
-from natasy.neural_network.layers import NeuralNetworkLayer
-from natasy.neural_network import Activation
+from natasy.neural_network.layers.neuralnetworklayer import NeuralNetworkLayer
 
 
 class FullyConnectedLayer(NeuralNetworkLayer):
@@ -10,7 +9,7 @@ class FullyConnectedLayer(NeuralNetworkLayer):
         self.n_units = n_units
         #  It means at every iteration you shut down each neuron of the layer with "1-keep_prob" probability.
         self.keep_prob = kwargs.get('keep_prob', 1)
-        # todo (3): weight initialization happens in the training phase and I guess it should be in a different class than here
+        # TODO (3): weight initialization happens in the training phase and I guess it should be in a different class than here
         self.activation = kwargs.get('activation')
         self.dAdZ = self.activation.prime
         # print(activation.__name__)
@@ -18,8 +17,8 @@ class FullyConnectedLayer(NeuralNetworkLayer):
         if not kwargs.get('initialization'):
             self.W, self.b = self.activation.recommended_initialization(n_units, n_in)
         else:
-            # Todo: raise error no Weight Intialization avaialable
-            pass
+            # TODO: raise error no Weight Intialization avaialable
+            raise Exception
 
         self.output_layer = kwargs.get('output_layer', False)
         self.D = None
@@ -40,7 +39,7 @@ class FullyConnectedLayer(NeuralNetworkLayer):
 
         return A
 
-    def calculate_layer_gradients(self, dLdA, compute_dLdA_1=True):
+    def calculate_layer_gradients(self, dLdA, *args, compute_dLdA_1=True, **kwargs):
         """
                 :param dLdA:
                 :return: dJdA_1, dJdW, dJdb

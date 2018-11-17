@@ -164,14 +164,14 @@ class Optimizer:
         return - np.sum(y * np.log(a), axis=0, keepdims=True)
 
     @staticmethod
-    def binary_cross_entropy_loss_prime(y, a):
-        return -y / a + (1 - y) / (1 - a)
+    def binary_cross_entropy_loss_prime(y, A):
+        return -y / A + (1 - y) / (1 - A)
 
     @staticmethod
-    def multinomial_cross_entropy_loss_prime(y, a):
+    def multinomial_cross_entropy_loss_prime(y, A):
         # a[y != 1] = 1
         # -(y / a)
-        return -np.divide(y, a, dtype=np.float128)
+        return -np.divide(y, A, dtype=np.float128)
 
     @staticmethod
     def regularization_term(network, m, lmbda):
@@ -204,7 +204,7 @@ class Optimizer:
         # (otherwise it would require O(N) additional memory). If you need to modify the list use alist.reverse(); if
         # you need a copy of the list in reversed order use alist[::-1]
         for l, layer, VsnSs in zip(range(len(network.layers), 0, -1), reversed(network.layers), reversed(self.VsnSs)):
-            dLdA, dJdW, dJdb = layer.calculate_layer_gradients(dLdA, compute_dLdA_1=(l > 1))
+            dLdA, dJdW, dJdb = layer.calculate_layer_gradients(dLdA, compute_dLdA_1=(l > 1), y=y)
 
             layer.W, layer.b = self.optimizer(dJdW, dJdb, layer.W, layer.b, X.shape[1], alpha=alpha, lmbda=lmbda,
                                         VS=VsnSs, beta1=beta1, beta2=beta2, t=t, decay_rate=decay_rate, epoch=epoch_num)

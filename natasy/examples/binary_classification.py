@@ -1,6 +1,6 @@
 import numpy as np
 from natasy.data_preparation.dataset import Dataset
-from natasy.neural_network.networks import NeuralNetwork
+from natasy.neural_network.network import NeuralNetwork
 from natasy.optimization import Optimizer
 
 
