@@ -3,6 +3,7 @@ import scipy.io
 from natasy.neural_network.networks import NeuralNetwork
 from natasy.optimization import Optimizer
 from natasy.data_preparation.dataset import Dataset
+from natasy.neural_network import Activation
 
 
 class MNIST_dataset(Dataset):
@@ -45,8 +46,8 @@ if __name__ == '__main__':
     mnist = MNIST_dataset(handwritten_digits['X'].T, handwritten_digits['y'].T, dev_size=0.2)
 
     nn01 = NeuralNetwork(n_features=400, n_classes=10)
-    nn01.add_layer(25, activation='leaky_relu', dropout_keep_prob=1)
-    nn01.add_output_layer(activation='softmax')
+    nn01.add_layer(25, activation=Activation.leaky_relu, dropout_keep_prob=1)
+    nn01.add_output_layer(activation=Activation.softmax_stable)
     gd_optimizer = Optimizer(loss='multinomial_cross_entropy', method='gradient-descent') # gd-with-momentum gradient-descent rmsprop adam
     gd_optimizer.minimize(nn01, epochs=50, mini_batch_size=1024, learning_rate=.1, regularization_parameter=10, dataset=mnist)
 
