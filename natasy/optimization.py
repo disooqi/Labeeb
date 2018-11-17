@@ -161,7 +161,9 @@ class Optimizer:
         """
         # here we penalize only the targeted class and this is intuitive because they are all dependent i.e. if targeted
         # error is reduced the rest will give less probability because of the softmax relation
-        return - np.sum(y * np.log(a), axis=0, keepdims=True)
+        # https://stackoverflow.com/questions/21752989/numpy-efficiently-avoid-0s-when-taking-logmatrix
+        LARGE_VALUE = 99
+        return - np.sum(y * np.ma.log(a).filled(LARGE_VALUE), axis=0, keepdims=True)
 
     @staticmethod
     def binary_cross_entropy_loss_prime(y, A):
@@ -169,9 +171,10 @@ class Optimizer:
 
     @staticmethod
     def multinomial_cross_entropy_loss_prime(y, A):
-        # a[y != 1] = 1
         # -(y / a)
-        return -np.divide(y, A, dtype=np.float128)
+        # https://www.google.com/search?client=ubuntu&channel=fs&q=how+to+avoidgetting+log+for+zeros+in+numpy&ie=utf-8
+        # https://stackoverflow.com/questions/21752989/numpy-efficiently-avoid-0s-when-taking-logmatrix
+        return -np.ma.divide(y, A).filled(0)
 
     @staticmethod
     def regularization_term(network, m, lmbda):
@@ -195,11 +198,8 @@ class Optimizer:
 
     def _update_weights(self, X, y, network, alpha, lmbda, t, beta1, beta2, decay_rate, epoch_num):
         A = network.feedforward(X)
-        with np.errstate(invalid='raise'):
-            try:
-                dLdA = self.loss_prime(y, A)
-            except FloatingPointError:
-                raise
+
+        dLdA = self.loss_prime(y, A) if network.require_dLdA else 0
         # To avoid the confusion: reversed() doesn't modify the list. reversed() doesn't make a copy of the list
         # (otherwise it would require O(N) additional memory). If you need to modify the list use alist.reverse(); if
         # you need a copy of the list in reversed order use alist[::-1]
