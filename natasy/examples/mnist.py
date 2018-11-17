@@ -14,7 +14,7 @@ class MNIST_dataset(Dataset):
         :param y:
         :param dev_size:
         """
-        super().__init__(X, y, dev_size, name='MNIST')
+        super(MNIST_dataset, self).__init__(X, y, dev_size, name='MNIST')
 
     @staticmethod
     def prepare_target(y):
@@ -46,12 +46,12 @@ if __name__ == '__main__':
     mnist = MNIST_dataset(handwritten_digits['X'].T, handwritten_digits['y'].T, dev_size=0.2)
 
     nn01 = NeuralNetwork(n_features=400, n_classes=10)
-    nn01.add_layer(25, activation=Activation.leaky_relu, dropout_keep_prob=1)
+    nn01.add_layer(100, activation=Activation.leaky_relu, dropout_keep_prob=1)
     nn01.add_layer(12, activation=Activation.softmax_stable, output_layer=True)
 
-
-    gd_optimizer = Optimizer(loss='multinomial_cross_entropy', method='gradient-descent') # gd-with-momentum gradient-descent rmsprop adam
-    gd_optimizer.minimize(nn01, epochs=50, mini_batch_size=1024, learning_rate=.1, regularization_parameter=10, dataset=mnist)
+    # gd_optimizer = Optimizer(loss='multinomial_cross_entropy', method='gradient-descent') # gd-with-momentum gradient-descent rmsprop adam
+    gd_optimizer = Optimizer(loss='multinomial_cross_entropy', method='adam') # gd-with-momentum gradient-descent rmsprop adam
+    gd_optimizer.minimize(nn01, epochs=100, mini_batch_size=5000, learning_rate=.1, regularization_parameter=0, dataset=mnist)
 
     train_acc = mnist.accuracy(nn01, training_accuracy=True)
     dev_acc = mnist.accuracy(nn01)
