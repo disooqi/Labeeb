@@ -5,7 +5,7 @@ from natasy.neural_network.layers.neuralnetworklayer import NeuralNetworkLayer
 class FullyConnectedLayer(NeuralNetworkLayer):
     # def __init__(self, n_units, n_in, initialization, activation=Activation.sigmoid, output_layer=False, keep_prob=1):
     def __init__(self, n_units, n_in, *args, **kwargs):
-        super().__init__(n_units, n_in, *args, **kwargs)
+        super(FullyConnectedLayer, self).__init__(n_units, n_in, *args, **kwargs)
         self.n_units = n_units
         #  It means at every iteration you shut down each neuron of the layer with "1-keep_prob" probability.
         self.keep_prob = kwargs.get('keep_prob', 1)
