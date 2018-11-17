@@ -1,165 +1,88 @@
 import numpy as np
-from scipy.special import expit, logit
 from natasy.neural_network.layers import NeuralNetworkLayer
+from natasy.neural_network import Activation
 
 
 class FullyConnectedLayer(NeuralNetworkLayer):
-    def __init__(self, n_units, n_in, activation='sigmoid', output_layer=False, keep_prob=1):
-        super().__init__()
+    # def __init__(self, n_units, n_in, initialization, activation=Activation.sigmoid, output_layer=False, keep_prob=1):
+    def __init__(self, n_units, n_in, *args, **kwargs):
+        super().__init__(n_units, n_in, *args, **kwargs)
         self.n_units = n_units
         #  It means at every iteration you shut down each neuron of the layer with "1-keep_prob" probability.
-        self.keep_prob = keep_prob
+        self.keep_prob = kwargs.get('keep_prob', 1)
         # todo (3): weight initialization happens in the training phase and I guess it should be in a different class than here
-        if activation == 'sigmoid':
-            self.activation = self.sigmoid
-            self.dAdZ = self.sigmoid_prime
-            # self.dAdZ = elementwise_grad(self.sigmoid)
-            self._weights_initialization(n_in)
-        elif activation == 'relu':
-            self.activation = self.relu
-            self.dAdZ = self.relu_prime
-            self._He_initialization(n_in)  # this an Andrew Ng recommendation to use He for relu
-        elif activation == 'tanh':
-            self.activation = self.tanh
-            self.dAdZ = self.tanh_prime
-            self._Xavier_initialization(n_in)  # this an Andrew Ng recommendation to use He for leaky_relu
-        elif activation == 'leaky_relu':
-            self.activation = self.leaky_relu
-            self.dAdZ = self.leaky_relu_prime
-            self._He_initialization(n_in)
-        elif activation == 'softmax':
-            self.activation = self.stable_softmax
-            self.dAdZ = self.softmax_prime
-            # self.dAdZ = elementwise_grad(self.stable_softmax)
-            self._weights_initialization(n_in)
+        self.activation = kwargs.get('activation')
+        self.dAdZ = self.activation.prime
+        # print(activation.__name__)
 
-        self.activation_type = activation
-        self.output_layer = output_layer
+        if not kwargs.get('initialization'):
+            self.W, self.b = self.activation.recommended_initialization(n_units, n_in)
+        else:
+            # Todo: raise error no Weight Intialization avaialable
+            pass
 
-    def _zeros_initialization(self, n_in):
-        self.W = np.zeros((self.n_units, n_in))
-        self.b = np.zeros((self.n_units, 1))
+        self.output_layer = kwargs.get('output_layer', False)
+        self.D = None
+        self.A = None
+        self.A_l_1 = None
 
-    def _weights_initialization(self, n_in):
-        # multiplying W by a small number makes the learning fast
-        # however from a practical point of view when multiplied by 0.01 using l>2 the NN does not converge
-        # that is beacuse it runs into gradients vanishing problem
-        self.W = np.random.randn(self.n_units, n_in) * 0.01
-        self.b = np.zeros((self.n_units, 1))
+    def calculate_layer_feedforward(self, A_1):
+        self.A_l_1 = A_1  # this is A-1 from last loop step
+        Z = np.dot(self.W, A_1) + self.b  # (called "logits" in ML folklore)
+        A = self.activation(Z)
 
-    def _He_initialization(self, n_in):
-        self.W = np.random.randn(self.n_units, n_in) * np.sqrt(2 / n_in)
-        self.b = np.zeros((self.n_units, 1))
+        # NB! we don't not apply dropout to the input layer or output layer.
+        D = np.random.rand(*A.shape) <= self.keep_prob  # dropout
+        A = np.multiply(A, D) / self.keep_prob  # inverted dropout
 
-    def _Xavier_initialization(self, n_in):
-        """Initialize weight W using Xavier Initialization
+        self.D = D
+        self.A = A
 
-        So if the input features of activations are roughly mean 0 and standard variance and variance 1 then this would
-        cause z to also take on a similar scale and this doesn't solve, but it definitely helps reduce the vanishing,
-        exploding gradients problem because it's trying to set each of the weight matrices W so that it's not
-        too much bigger than 1 and not too much less than 1 so it doesn't explode or vanish too quickly.
-        """
-        self.W = np.random.randn(self.n_units, n_in) * np.sqrt(1 / n_in)
-        self.b = np.zeros((self.n_units, 1))
-
-    def _Benjio_initialization(self, n_in):
-        self.W = np.random.randn(self.n_units, n_in) * np.sqrt(2 / (n_in + self.n_units))
-        self.b = np.zeros((self.n_units, 1))
-
-    @staticmethod
-    def softmax(Z):
-        """Compute softmax of Matrix Z
-
-        :param Z: is in the shape of (n * m), where n is the number of classes and m is the number of examples
-        :return:
-        """
-        Z_exp = np.exp(Z)
-        return Z_exp / np.sum(Z_exp, axis=0)
-
-    @staticmethod
-    def stable_softmax(Z):
-        """Compute the softmax of vector Z in a numerically stable way."""
-
-        shift_Z = Z - np.max(Z, axis=0)
-        Z_exp = np.exp(shift_Z)
-        return Z_exp / np.sum(Z_exp, axis=0)
-
-    @staticmethod
-    def softmax_prime(S):
-        """Computes the gradient of the softmax function.
-
-        https://stackoverflow.com/questions/40575841/numpy-calculate-the-derivative-of-the-softmax-function
-        https://stackoverflow.com/questions/26511401/numpy-fastest-way-of-computing-diagonal-for-each-row-of-a-2d-array
-        https://stackoverflow.com/questions/41469647/outer-product-of-each-column-of-a-2d-array-to-form-a-3d-array-numpy
-        https://eli.thegreenplace.net/2016/the-softmax-function-and-its-derivative/
-        # Kronecker delta function
-        :param S: (T, 1) array of input values where the gradient is computed. T is the
-           number of output classes.
-        :return: dAdZ (T, T) the Jacobian matrix of softmax(Z) at the given Z. D[i, j]
-        is DjSi - the partial derivative of Si w.r.t. input j.
-        """
-        # -SjSi can be computed using an outer product between Sz and itself. Then
-        # we add back Si for the i=j cases by adding a diagonal matrix with the
-        # values of Si on its diagonal.
-        dAdZ_struct = np.zeros((S.shape[0], S.shape[0], S.shape[1]))
-        diag_indecies = np.arange(S.shape[0])
-        dAdZ_struct[diag_indecies, diag_indecies, :] = S
-
-        # D = -np.outer(S, S) + np.diag(S.flatten())
-        dAdZ = dAdZ_struct - S[:, None, :] * S
-        return dAdZ
-
-    @staticmethod
-    def sigmoid(Z):
-        # https://docs.scipy.org/doc/scipy/reference/generated /scipy.special.expit.html
-        # return 1 / (1 + np.exp(-Z))
-        return expit(np.clip(Z, -709, 36.73))
-
-    @classmethod
-    def sigmoid_prime(cls, A):
-        """ calculate dAdZ
-
-        :param A:
-        :return: dAdZ
-        """
-        return A * (1 - A)
-
-    @staticmethod
-    def tanh(Z):
-        return (np.exp(Z) - np.exp(-Z)) / (np.exp(Z) + np.exp(-Z))
-
-    @classmethod
-    def tanh_prime(cls, A):
-        return 1 - A ** 2
-
-    @staticmethod
-    def relu(Z):
-        # a[a<0] = 0
-        # return np.clip(Z, 0, Z)
-        return np.maximum(Z, 0)
-
-    @staticmethod
-    def relu_prime(A):
-        A[A > 0] = 1
         return A
 
-    @staticmethod
-    def leaky_relu(Z, alpha=0.01):
+    def calculate_layer_gradients(self, dLdA, compute_dLdA_1=True):
         """
-        :param Z:
-        :param alpha: Slope of the activation function at x < 0.
-        :return:
-
+                :param dLdA:
+                :return: dJdA_1, dJdW, dJdb
         """
-        # return np.clip(Z, alpha * Z, Z)
-        return np.where(Z < 0, alpha * Z, Z)
+        # For the first iteration where loss is cross entropy and activation func of output layer
+        # is sigmoid, that could be shorten to,
+        # dZ[L] = A[L]-Y
+        # In general, you can compute dZ as follows
+        # dZ = dA * g'(Z) TODO: currently we pass A instead of Z, I guess it is much better to follow "A. Ng" and pass Z
 
-    @staticmethod
-    def leaky_relu_prime(A, alpha=0.01):
-        return np.where(A > 0, 1, alpha)
+        # During forward propagation, you had divided A1 by keep_prob. In backpropagation, you'll therefore have to
+        # divide dA1 by keep_prob again (the calculus interpretation is that if  A[1]A[1]  is scaled by keep_prob, then
+        # its derivative  dA[1]dA[1]  is also scaled by the same keep_prob).
+
+        dLdA = np.multiply(dLdA, self.D) / self.keep_prob
+        dAdZ = self.dAdZ(self.A)
+
+        if len(dAdZ.shape) == 3:
+            dLdZ = np.einsum('ik,ijk->jk',dLdA, dAdZ) # dot product (element-wise and then sum over columns)
+        else:
+            dLdZ = dLdA * dAdZ  # Element-wise product
+
+        # dw = dz . a[l-1]
+        dZdW = self.A_l_1
+        # this is two steps in one line; getting dLdw and then dJdW
+        # if you want to elaborate on that,
+        # then dLdW = dLdZ * dZdW
+        # followed by dJdW = np.sum(dLdW, axis=1, keepdims=True) / dLdA.shape[1]
+        # see https://www.coursera.org/learn/neural-networks-deep-learning/lecture/udiAq/gradient-descent-on-m-examples
+        # dLdA.shape[1] is m and dLdZ, dZdW is n*m dimension
+        dJdW = np.dot(dLdZ, dZdW.T) / dLdA.shape[1]
+        dJdb = np.sum(dLdZ, axis=1, keepdims=True) / dLdA.shape[1]
+
+        dLdA_1 = None
+        if compute_dLdA_1:
+            # da[l-1] = w[l].T . dz[l]
+            dZdA_1 = self.W
+            dLdA_1 = np.dot(dZdA_1.T, dLdZ)  # computing dLd(A-1)
+        return dLdA_1, dJdW, dJdb
 
     def __repr__(self):
-        return 'FullyConnectedLayer(n_units={0.n_units}, activation={0.activation_type}, output_layer=' \
+        return 'FullyConnectedLayer(n_units={0.n_units}, activation={0.activation.__name__}, output_layer=' \
                '{0.output_layer}, keep_prob={0.keep_prob})'.format(self)
 
 

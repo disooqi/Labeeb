@@ -194,19 +194,7 @@ class Optimizer:
                                                                                                            lmbda=lmbda)
 
     def _update_weights(self, X, y, network, alpha, lmbda, t, beta1, beta2, decay_rate, epoch_num):
-        A = X
-        for layer in network.layers:
-            layer.A_l_1 = A  # this is A-1 from last loop step
-            Z = np.dot(layer.W, A) + layer.b  # (called "logits" in ML folklore)
-            A = layer.activation(Z)
-
-            # NB! we don't not apply dropout to the input layer or output layer.
-            D = np.random.rand(*A.shape) <= layer.keep_prob  # dropout
-            A = np.multiply(A, D) / layer.keep_prob  # inverted dropout
-
-            layer.D = D
-            layer.A = A
-
+        A = network.feedforward(X)
         with np.errstate(invalid='raise'):
             try:
                 dLdA = self.loss_prime(y, A)
@@ -216,7 +204,7 @@ class Optimizer:
         # (otherwise it would require O(N) additional memory). If you need to modify the list use alist.reverse(); if
         # you need a copy of the list in reversed order use alist[::-1]
         for l, layer, VsnSs in zip(range(len(network.layers), 0, -1), reversed(network.layers), reversed(self.VsnSs)):
-            dLdA, dJdW, dJdb = network.calculate_single_layer_gradients(dLdA, layer, compute_dLdA_1=(l > 1))
+            dLdA, dJdW, dJdb = layer.calculate_layer_gradients(dLdA, compute_dLdA_1=(l > 1))
 
             layer.W, layer.b = self.optimizer(dJdW, dJdb, layer.W, layer.b, X.shape[1], alpha=alpha, lmbda=lmbda,
                                         VS=VsnSs, beta1=beta1, beta2=beta2, t=t, decay_rate=decay_rate, epoch=epoch_num)

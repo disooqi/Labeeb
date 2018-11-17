@@ -7,9 +7,6 @@ class ConvLayer(NeuralNetworkLayer):
     # valid (no padding) and same (Pad so that output size is the same as the input size) convolutions
     # f is usually square and odd (almost always)
     # convolution operation is called cross-correlation in mathematics
-
-
-
     def __init__(self, height, width, n_channels, convolution='valid'):
         super().__init__()
         self.height, self.width, self.n_channels = height, width, n_channels
@@ -19,11 +16,12 @@ class ConvLayer(NeuralNetworkLayer):
         if convolution == 'valid':
             self.p = 0
         elif convolution == 'same':
-            self.p = (f-s-n)/2 # for all filters and all strides
+            # self.p = (f-s-n)/2 # for all filters and all strides
+            pass
 
     def add_filter(self, height, width):
         self.Filter(height, width)
-        if self.convolution_schema ==
+        # if self.convolution_schema ==
         assert height <= self.height
         assert width <= self.width
         self.initialize_filter(height, width)
@@ -32,7 +30,11 @@ class ConvLayer(NeuralNetworkLayer):
         def __init__(self, height, width):
             pass
 
-        def initialize_filter(self, height, width):
-            return np.zeros((height, width, self. .n_channels))
+        # def initialize_filter(self, height, width):
+        #     return np.zeros((height, width, self. .n_channels))
 
 
+if __name__ == '__main__':
+    # http://www.cs.toronto.edu/~kriz/cifar.html
+    # http://www.cs.toronto.edu/~kriz/cifar-10-python.tar.gz
+    pass
