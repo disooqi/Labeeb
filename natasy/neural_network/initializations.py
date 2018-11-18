@@ -1,5 +1,5 @@
 import numpy as np
-np.random.seed(0)
+# np.random.seed(0)
 
 
 class Initialization:
@@ -28,7 +28,7 @@ def _He_initialization(n_units, n_in):
 
 
 def _Xavier_initialization(n_units, n_in):
-    """Initialize weight W using Xavier Initialization
+    """Initialize weight W using Xavier Initialization (also known as Glorot Initialization)
 
     So if the input features of activations are roughly mean 0 and standard variance and variance 1 then this would
     cause z to also take on a similar scale and this doesn't solve, but it definitely helps reduce the vanishing,

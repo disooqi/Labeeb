@@ -124,7 +124,7 @@ def _softmax_prime(S):
 Activation.sigmoid = _sigmoid
 Activation.sigmoid.prime = _sigmoid_prime
 # self.dAdZ = elementwise_grad(self.sigmoid)
-Activation.sigmoid.recommended_initialization = _weights_initialization
+Activation.sigmoid.recommended_initialization = _Xavier_initialization
 
 Activation.tanh = _tanh
 Activation.tanh.prime = _tanh_prime
@@ -140,17 +140,12 @@ Activation.leaky_relu.recommended_initialization = _He_initialization # A. Ng re
 
 Activation.softmax = _softmax
 Activation.softmax.prime = _softmax_prime
-Activation.softmax.recommended_initialization = _weights_initialization
+Activation.softmax.recommended_initialization = _Xavier_initialization
 
 Activation.softmax_stable = _stable_softmax
 Activation.softmax_stable.prime = _softmax_prime
-Activation.softmax_stable.recommended_initialization = _weights_initialization
+Activation.softmax_stable.recommended_initialization = _Xavier_initialization
 
 
-# elif activation == 'softmax':
-#     self.activation = self.stable_softmax
-#     self.dAdZ = self.softmax_prime
-#     # self.dAdZ = elementwise_grad(self.stable_softmax)
-#     self._weights_initialization(n_in)
 if __name__ == '__main__':
     print(dir(Activation.sigmoid))
