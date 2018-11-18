@@ -8,16 +8,18 @@ from collections import namedtuple
 #the function shuffles the dataset
 
 class Dataset:
-    def __init__(self, X, y, dev_size, name=None, shuffle=True, normalize_input_features=True):
+    def __init__(self, X, y, dev_size, name=None, shuffle=True, normalize_input_features=True, split=True):
         self.name = name
         self.dev_size = dev_size
         self.shuffle = shuffle
         y, self.classes = self.prepare_target(y)
 
-        X_train, X_dev, y_train, y_dev = train_test_split(X.T, y.T, shuffle=shuffle, test_size=dev_size)
-        self.y_train, self.y_dev = y_train.T, y_dev.T
-        self.X_train, self.X_dev = X_train.T, X_dev.T
-
+        if split:
+            X_train, X_dev, y_train, y_dev = train_test_split(X.T, y.T, shuffle=shuffle, test_size=dev_size)
+            self.y_train, self.y_dev = y_train.T, y_dev.T
+            self.X_train, self.X_dev = X_train.T, X_dev.T
+        else:
+            self.X_train, self.y_train = X, y
         self.n, self.m = self.X_train.shape
 
         if normalize_input_features:
