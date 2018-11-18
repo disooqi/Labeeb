@@ -1,6 +1,7 @@
 import numpy as np
 import time
 import logging
+from tqdm import tqdm
 
 
 logger = logging.getLogger(__name__)
@@ -229,16 +230,22 @@ class Optimizer:
         for layer in network.layers:
             self.VsnSs.append({"Vdw": np.zeros_like(layer.W), "Vdb": np.zeros_like(layer.b),
                                "Sdw": np.zeros_like(layer.W), "Sdb": np.zeros_like(layer.b)})
-
+        epochbar = tqdm(total=epochs)
         for epoch in range(1, epochs+1):
+            # mini_batchbar = tqdm(total=100)
             for t, mini_batch in enumerate(dataset.next_mini_batch(size=mini_batch_size), start=1):
                 self._update_weights(mini_batch.X, mini_batch.y, network, learning_rate,
                                      regularization_parameter, t, beta1=momentum, beta2=beta2, decay_rate=learning_rate_decay, epoch_num=epoch)
             else:
-                if epoch % 10 == 0:
-                    cost = self.cost(network, dataset.X_train, dataset.y_train, lmbda=regularization_parameter)
-                    logger.info('epoch {} (error: {:.5f})'.format(epoch, cost))
+                # mini_batchbar.close()
+                epochbar.update(1)
+                cost = self.cost(network, dataset.X_train, dataset.y_train, lmbda=regularization_parameter)
+                epochbar.set_description(', Epoch {} (error: {:.5f})'.format(epoch, cost))
+                # if epoch % 10 == 0:
+                #     cost = self.cost(network, dataset.X_train, dataset.y_train, lmbda=regularization_parameter)
+                #     logger.info('epoch {} (error: {:.5f})'.format(epoch, cost))
         else:
+            epochbar.close()
             aft = time.time()
             cost = self.cost(network, dataset.X_train, dataset.y_train, lmbda=regularization_parameter)
             logger.debug('-' * 80)
