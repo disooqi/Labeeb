@@ -3,9 +3,12 @@ A machine learning engine designed and developed to be both easy to use and sour
 Backpropagation is implemented in boring detail such that derivative steps is taken carefully and without any implicit or hidden 
 details
 
+* https://www.analyticsvidhya.com/blog/2018/03/comprehensive-collection-deep-learning-datasets/
+
 ## backpropagation
 * https://blogs.msdn.microsoft.com/uk_faculty_connection/2017/07/04/how-to-implement-the-backpropagation-using-python-and-numpy/
-
+* https://sydney.edu.au/stuserv/documents/maths_learning_centre/compositefunctionrule.pdf
+* https://eli.thegreenplace.net/2016/the-chain-rule-of-calculus/
 
 ## Softmax
 * https://www.ics.uci.edu/~pjsadows/notes.pdf
@@ -14,16 +17,24 @@ details
 * https://algorithmsdatascience.quora.com/BackPropagation-a-collection-of-notes-tutorials-demo-and-codes
 * https://eli.thegreenplace.net/2016/the-softmax-function-and-its-derivative/
 * https://stackoverflow.com/questions/33541930/how-to-implement-the-softmax-derivative-independently-from-any-loss-function
-* https://eli.thegreenplace.net/2016/the-chain-rule-of-calculus/
+
 * https://stackoverflow.com/questions/40575841/numpy-calculate-the-derivative-of-the-softmax-function
 * https://en.wikipedia.org/wiki/Softmax_function#Artificial_neural_networks
 *  (?) http://www.wildml.com/2015/09/implementing-a-neural-network-from-scratch/
 * https://medium.com/@14prakash/back-propagation-is-very-simple-who-made-it-complicated-97b794c97e5c
+* https://medium.com/@aerinykim/how-to-implement-the-softmax-derivative-independently-from-any-loss-function-ae6d44363a9d
 
 ## CNN
 * http://deeplearning.net/tutorial/lenet.html
 * https://www.kdnuggets.com/2018/04/derivation-convolutional-neural-network-fully-connected-step-by-step.html#.WtijFNOWxlI.facebook
-
+* https://www.youtube.com/watch?v=BvrWiL2fd0M
+* https://pdfs.semanticscholar.org/5d79/11c93ddcb34cac088d99bd0cae9124e5dcd1.pdf
+* https://becominghuman.ai/back-propagation-in-convolutional-neural-networks-intuition-and-code-714ef1c38199
+* https://stackoverflow.com/questions/43373521/how-to-do-convolution-matrix-operation-in-numpy
+* http://machinelearninguru.com/computer_vision/basics/convolution/image_convolution_1.html
+* https://leonardoaraujosantos.gitbooks.io/artificial-inteligence/content/fc_layer.html
+* http://www.cs.toronto.edu/~kriz/cifar.html
+* http://cs231n.github.io/convolutional-networks/
 
 ## LSTM
 * https://arxiv.org/abs/1503.04069
@@ -33,6 +44,7 @@ details
 * https://r2rt.com/written-memories-understanding-deriving-and-extending-the-lstm.html
 * https://www.quora.com/What-is-the-clearest-presentation-of-backpropagation-through-time-for-LSTMs
 * https://stackoverflow.com/questions/41555576/lstm-rnn-backpropagation
+* https://towardsdatascience.com/back-to-basics-deriving-back-propagation-on-simple-rnn-lstm-feat-aidan-gomez-c7f286ba973d
 
 ## RNN
 * https://arxiv.org/pdf/1610.02583.pdf
@@ -44,6 +56,27 @@ details
 * https://machinelearningmastery.com/gentle-introduction-backpropagation-time/
 * https://github.com/pangolulu/rnn-from-scratch
 
+
+# Attension Mechanism
+https://medium.com/syncedreview/a-brief-overview-of-attention-mechanism-13c578ba9129
+
 # Tensorflow
 * https://www.tensorflow.org/versions/master/get_started/
 
+# Numpy
+http://ajcr.net/Basic-guide-to-einsum/
+https://stackoverflow.com/questions/26089893/understanding-numpys-einsum
+
+# Ensemble learning
+https://en.wikipedia.org/wiki/Ensemble_learning
+https://towardsdatascience.com/ensemble-methods-in-machine-learning-what-are-they-and-why-use-them-68ec3f9fef5f
+
+
+
+
+
+https://eli.thegreenplace.net/2015/memory-layout-of-multi-dimensional-arrays
+https://eli.thegreenplace.net/2018/elegant-python-code-for-a-markov-chain-text-generator/
+https://hackernoon.com/automated-text-generator-using-markov-chain-de999a41e047
+
+http://www.emergentmind.com/neural-network
