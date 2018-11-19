@@ -9,6 +9,7 @@ details
 * https://blogs.msdn.microsoft.com/uk_faculty_connection/2017/07/04/how-to-implement-the-backpropagation-using-python-and-numpy/
 * https://sydney.edu.au/stuserv/documents/maths_learning_centre/compositefunctionrule.pdf
 * https://eli.thegreenplace.net/2016/the-chain-rule-of-calculus/
+* http://colah.github.io/posts/2015-08-Backprop/
 
 ## Softmax
 * https://www.ics.uci.edu/~pjsadows/notes.pdf
@@ -23,6 +24,13 @@ details
 *  (?) http://www.wildml.com/2015/09/implementing-a-neural-network-from-scratch/
 * https://medium.com/@14prakash/back-propagation-is-very-simple-who-made-it-complicated-97b794c97e5c
 * https://medium.com/@aerinykim/how-to-implement-the-softmax-derivative-independently-from-any-loss-function-ae6d44363a9d
+* http://www.cs.toronto.edu/~tijmen/csc321/documents/softmax.pdf
+* https://math.stackexchange.com/questions/945871/derivative-of-softmax-loss-function
+https://peterroelants.github.io/posts/cross-entropy-softmax/
+* https://stats.stackexchange.com/questions/235528/backpropagation-with-softmax-cross-entropy
+* https://stats.stackexchange.com/questions/79454/softmax-layer-in-a-neural-network
+* https://deepnotes.io/softmax-crossentropy
+* https://ljvmiranda921.github.io/notebook/2017/08/13/softmax-and-the-negative-log-likelihood/
 
 ## CNN
 * http://deeplearning.net/tutorial/lenet.html
@@ -56,6 +64,9 @@ details
 * https://machinelearningmastery.com/gentle-introduction-backpropagation-time/
 * https://github.com/pangolulu/rnn-from-scratch
 
+# Embeddings
+https://towardsdatascience.com/neural-network-embeddings-explained-4d028e6f0526
+
 
 # Attension Mechanism
 https://medium.com/syncedreview/a-brief-overview-of-attention-mechanism-13c578ba9129
@@ -66,17 +77,33 @@ https://medium.com/syncedreview/a-brief-overview-of-attention-mechanism-13c578ba
 # Numpy
 http://ajcr.net/Basic-guide-to-einsum/
 https://stackoverflow.com/questions/26089893/understanding-numpys-einsum
+https://machinelearningmastery.com/broadcasting-with-numpy-arrays/
+https://docs.scipy.org/doc/numpy-1.15.0/user/basics.broadcasting.html
 
 # Ensemble learning
 https://en.wikipedia.org/wiki/Ensemble_learning
 https://towardsdatascience.com/ensemble-methods-in-machine-learning-what-are-they-and-why-use-them-68ec3f9fef5f
 
+# Automatic Differentiation
+https://www.youtube.com/watch?v=sq2gPzlrM0g
+https://arxiv.org/abs/1502.05767
+http://www.cs.toronto.edu/~rgrosse/courses/csc321_2017/slides/lec8a.pdf
+http://www.cs.toronto.edu/~rgrosse/courses/csc321_2017/slides/lec8b.pdf
+
+# heatmapping
+http://www.heatmapping.org/
+http://www.heatmapping.org/tutorial/
+
+# Transformer
+https://jalammar.github.io/illustrated-transformer/
 
 
-
+https://joshvarty.com/2018/02/19/ltfn-6-weight-initialization/
+http://adventuresinmachinelearning.com/weight-initialization-tutorial-tensorflow/
 
 https://eli.thegreenplace.net/2015/memory-layout-of-multi-dimensional-arrays
 https://eli.thegreenplace.net/2018/elegant-python-code-for-a-markov-chain-text-generator/
 https://hackernoon.com/automated-text-generator-using-markov-chain-de999a41e047
 
 http://www.emergentmind.com/neural-network
+http://www.cs.toronto.edu/~tijmen/csc321/
