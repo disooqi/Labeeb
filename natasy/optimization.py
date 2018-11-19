@@ -30,6 +30,8 @@ class Optimizer:
         elif loss == 'multinomial_cross_entropy':
             self.loss = self.multinomial_cross_entropy_loss
             self.loss_prime = self.multinomial_cross_entropy_loss_prime
+        elif loss == 'mean-squared-error':
+            pass
 
         if method == 'gradient-descent':
             self.optimizer = self.gradient_descent
@@ -95,6 +97,16 @@ class Optimizer:
 
     @classmethod
     def RMSprop(cls, dJdW, dJdb, W, b, m, **kwargs):
+        """This optimizer is usually a good choice for recurrent neural networks.
+
+        :param dJdW:
+        :param dJdb:
+        :param W:
+        :param b:
+        :param m:
+        :param kwargs:
+        :return W, b:
+        """
         beta2 = kwargs['beta2']
         Ss = kwargs['VS']
         alpha0 = kwargs['alpha']
@@ -140,13 +152,26 @@ class Optimizer:
         return W, b
 
     @staticmethod
-    def binary_cross_entropy_loss(y, a):
+    def mean_squared_error(y, A):
+        """MSE cost function
+
+        :param y:
+        :param A:
+        :return:
+        """
+        # TODO: this is a cost function for linear regression, for NN you need a loss special version of that i.e. may
+        # TODO: be just np.square(A-y) and then sum and by 2m in when you try to compute dJdW and dJdb
+        # TODO: Look in Google for "linear regression using Neural Network"
+        np.sum(np.square(A-y))/(2*y.size)
+
+    @staticmethod
+    def binary_cross_entropy_loss(y, A):
         # http://christopher5106.github.io/deep/learning/2016/09/16/about-loss-functions-multinomial-logistic-logarithm-cross-entropy-square-errors-euclidian-absolute-frobenius-hinge.html
         # https://stats.stackexchange.com/questions/260505/machine-learning-should-i-use-a-categorical-cross-entropy-or-binary-cross-entro
         # https://stackoverflow.com/questions/41469647/outer-product-of-each-column-of-a-2d-array-to-form-a-3d-array-numpy
         # here we penalize every class even the zero ones
         # the classes here are independent i.e you can reduce the error of one without affecting the other
-        return -(y * np.log(a) + (1 - y) * np.log(1 - a))
+        return -(y * np.log(A) + (1 - y) * np.log(1 - A))
 
     @staticmethod
     def multinomial_cross_entropy_loss(y, a):
