@@ -1,5 +1,5 @@
 import numpy as np
-# np.random.seed(0)
+np.random.seed(0)
 
 
 class Initialization:
@@ -22,6 +22,12 @@ def _weights_initialization(n_units, n_in):
 
 
 def _He_initialization(n_units, n_in):
+    """ Goes better with ReLU (a generalization this initializer is called variance_scaling_initializer)
+
+    :param n_units:
+    :param n_in:
+    :return:
+    """
     W = np.random.randn(n_units, n_in) * np.sqrt(2 / n_in)
     b = np.zeros((n_units, 1))
     return W, b
@@ -34,6 +40,7 @@ def _Xavier_initialization(n_units, n_in):
     cause z to also take on a similar scale and this doesn't solve, but it definitely helps reduce the vanishing,
     exploding gradients problem because it's trying to set each of the weight matrices W so that it's not
     too much bigger than 1 and not too much less than 1 so it doesn't explode or vanish too quickly.
+    P.S. Goes better with Sigmoid and Softmax and tanh
     """
     W = np.random.randn(n_units, n_in) * np.sqrt(1 / n_in)
     b = np.zeros((n_units, 1))

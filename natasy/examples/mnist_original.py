@@ -1,3 +1,8 @@
+"""
+This example has been created to mimic the keras example in https://github.com/keras-team/keras/blob/master/examples/mnist_mlp.py
+In Keras example, they claim that they achieved about 98.40% accuracy. Using almost the same setup Natasy achieve about
+98.58%
+"""
 import numpy as np
 from keras.datasets import mnist
 from natasy.data_preparation import Dataset
@@ -50,7 +55,6 @@ class MNISTDataset(Dataset):
 
 
 if __name__ == '__main__':
-
     (x_train, y_train), (x_test, y_test) = mnist.load_data()
     mnist = MNISTDataset(train=(x_train, y_train), dev=(x_test, y_test))
 
@@ -60,17 +64,12 @@ if __name__ == '__main__':
 
     nn01.add_layer(12, activation=Activation.softmax_stable, output_layer=True)
 
-    # gd_optimizer = Optimizer(loss='multinomial_cross_entropy', method='gradient-descent') # gd-with-momentum gradient-descent rmsprop adam
     gd_optimizer = Optimizer(loss='multinomial_cross_entropy',
                              method='rmsprop')  # gd-with-momentum gradient-descent rmsprop adam
+    # keras.optimizers.RMSprop(lr=0.001, rho=0.9, epsilon=None, decay=0.0)
     gd_optimizer.minimize(nn01, epochs=20, mini_batch_size=128, learning_rate=.0005, regularization_parameter=0,
                           dataset=mnist)
 
     train_acc = mnist.accuracy(nn01, training_accuracy=True)
     dev_acc = mnist.accuracy(nn01)
     print('train acc: {:.2f}%, Dev acc: {:.2f}%'.format(train_acc, dev_acc))
-    # print()
-    #
-    # batch_size = 128
-    # num_classes = 10
-    # epochs = 20

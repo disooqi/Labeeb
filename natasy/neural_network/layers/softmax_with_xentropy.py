@@ -3,6 +3,16 @@ from natasy.neural_network.layers import OutputLayer
 
 
 class SoftmaxWithXEntropy(OutputLayer):
+    """
+
+    Calculating exponentials and logarithmics are computationally expensive. As we can see from the previous 2 parts,
+    the softmax layer is raising the logit scores to exponential in order to get probability vectors, and then the loss
+    function is doing the log to calculate the entropy of the loss.
+
+    If we combine these 2 stages in one layer, logarithmics and exponentials kind of cancel out each others, and we can
+    get the same final result with much less computational resources. That’s why in many neural network frameworks and
+    libraries there is a “softmax-log-loss” function, which is much more optimal than having the 2 functions separated
+    """
     def __init__(self, n_units, n_in, *args, **kwargs):
         super(SoftmaxWithXEntropy, self).__init__(n_units, n_in, *args, **kwargs)
 
