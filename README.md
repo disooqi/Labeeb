@@ -95,9 +95,9 @@ http://www.heatmapping.org/
 http://www.heatmapping.org/tutorial/
 
 # Transformer
-https://jalammar.github.io/illustrated-transformer/
-https://towardsdatascience.com/bert-explained-state-of-the-art-language-model-for-nlp-f8b21a9b6270
-https://arxiv.org/abs/1810.04805
+* https://jalammar.github.io/illustrated-transformer/
+* https://towardsdatascience.com/bert-explained-state-of-the-art-language-model-for-nlp-f8b21a9b6270
+* https://arxiv.org/abs/1810.04805
 
 
 
