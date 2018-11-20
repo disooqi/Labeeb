@@ -96,6 +96,9 @@ http://www.heatmapping.org/tutorial/
 
 # Transformer
 https://jalammar.github.io/illustrated-transformer/
+https://towardsdatascience.com/bert-explained-state-of-the-art-language-model-for-nlp-f8b21a9b6270
+https://arxiv.org/abs/1810.04805
+
 
 
 https://joshvarty.com/2018/02/19/ltfn-6-weight-initialization/
