@@ -65,6 +65,8 @@ https://peterroelants.github.io/posts/cross-entropy-softmax/
 * https://www.quora.com/What-is-the-clearest-presentation-of-backpropagation-through-time-for-LSTMs
 * https://stackoverflow.com/questions/41555576/lstm-rnn-backpropagation
 * https://towardsdatascience.com/back-to-basics-deriving-back-propagation-on-simple-rnn-lstm-feat-aidan-gomez-c7f286ba973d
+* https://medium.com/themlblog/time-series-analysis-using-recurrent-neural-networks-in-tensorflow-2a0478b00be7
+* https://skymind.ai/wiki/lstm
 
 ## RNN
 * https://arxiv.org/pdf/1610.02583.pdf
@@ -75,6 +77,9 @@ https://peterroelants.github.io/posts/cross-entropy-softmax/
 * http://www.wildml.com/2015/10/recurrent-neural-networks-tutorial-part-3-backpropagation-through-time-and-vanishing-gradients/
 * https://machinelearningmastery.com/gentle-introduction-backpropagation-time/
 * https://github.com/pangolulu/rnn-from-scratch
+* https://freecontent.manning.com/recurrent-neural-networks/
+* https://leonardoaraujosantos.gitbooks.io/artificial-inteligence/content/recurrent_neural_networks.html
+* https://medium.com/themlblog/time-series-analysis-using-recurrent-neural-networks-in-tensorflow-2a0478b00be7
 
 # Embeddings
 https://towardsdatascience.com/neural-network-embeddings-explained-4d028e6f0526
@@ -109,10 +114,14 @@ http://www.heatmapping.org/tutorial/
 
 # Transformer
 * https://papers.nips.cc/paper/7181-attention-is-all-you-need.pdf (first paper)
+* https://www.youtube.com/watch?v=iDulhoQ2pro (first paper)
 * https://mchromiak.github.io/articles/2017/Sep/12/Transformer-Attention-is-all-you-need/
 * https://jalammar.github.io/illustrated-transformer/
 * https://towardsdatascience.com/bert-explained-state-of-the-art-language-model-for-nlp-f8b21a9b6270
 * https://arxiv.org/abs/1810.04805
+* https://medium.com/@kolloldas/building-the-mighty-transformer-for-sequence-tagging-in-pytorch-part-i-a1815655cd8
+* https://arxiv.org/abs/1807.03819
+
 
 
 
