@@ -3,6 +3,14 @@ A machine learning engine designed and developed to be both easy to use and sour
 Backpropagation is implemented in boring detail such that derivative steps is taken carefully and without any implicit or hidden 
 details
 
+Natasy is Arabic word means the skilled scientist, or the clever doctor.
+
+<p style='direction:rtl; text-align: right'>
+  .النَطَاسِيُّ : العالمُ الماهرُ ، والطبيبُ الحاذِق
+  
+التَنَطُّسُ: المبالغة في التطهُّر. وكلُّ من أدقَّ النظر في الأمور واستقصى عِلمها فهو مُتَنَطِّسٌ. وفي حديث عمر رضي الله عنه: "لولا التَنَطُّسُ ما باليتُ أن لا أغسل يدي". يقال منه: رجلٌ نَطُسٌ ونَطِسٌ. وقد نَطِسَ بالكسر نَطَساً. ومنه قيل للمُتَطَبِّبِ: نِطِّيسٌ، ونِطاسِيٌّ أيضاً. قال البعيث بن بِشْرٍ يصف شَجَّةً أو جراحةً: إذا قاسَها الآسي النِطاسيُّ أَدْبَرَتْ   غَثِيثَتُها وازْدادَ وَهْياً هُزومُهـا قال أبو عبيدة: ويروى: النَطاسِيُّ بفتح النون. وتَنَطَّسْتُ الأخبارَ: تَحَسَّسْتُها. والناطِسُ: الجاسوسُ.
+</p>
+
 * https://www.analyticsvidhya.com/blog/2018/03/comprehensive-collection-deep-learning-datasets/
 
 ## backpropagation
