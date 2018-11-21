@@ -81,7 +81,8 @@ https://towardsdatascience.com/neural-network-embeddings-explained-4d028e6f0526
 
 
 # Attension Mechanism
-https://medium.com/syncedreview/a-brief-overview-of-attention-mechanism-13c578ba9129
+* https://arxiv.org/pdf/1409.0473.pdf (1st paper)
+* https://medium.com/syncedreview/a-brief-overview-of-attention-mechanism-13c578ba9129
 
 # Tensorflow
 * https://www.tensorflow.org/versions/master/get_started/
@@ -107,18 +108,20 @@ http://www.heatmapping.org/
 http://www.heatmapping.org/tutorial/
 
 # Transformer
+* https://papers.nips.cc/paper/7181-attention-is-all-you-need.pdf (first paper)
+* https://mchromiak.github.io/articles/2017/Sep/12/Transformer-Attention-is-all-you-need/
 * https://jalammar.github.io/illustrated-transformer/
 * https://towardsdatascience.com/bert-explained-state-of-the-art-language-model-for-nlp-f8b21a9b6270
 * https://arxiv.org/abs/1810.04805
 
 
 
-https://joshvarty.com/2018/02/19/ltfn-6-weight-initialization/
-http://adventuresinmachinelearning.com/weight-initialization-tutorial-tensorflow/
+* https://joshvarty.com/2018/02/19/ltfn-6-weight-initialization/
+* http://adventuresinmachinelearning.com/weight-initialization-tutorial-tensorflow/
 
-https://eli.thegreenplace.net/2015/memory-layout-of-multi-dimensional-arrays
-https://eli.thegreenplace.net/2018/elegant-python-code-for-a-markov-chain-text-generator/
-https://hackernoon.com/automated-text-generator-using-markov-chain-de999a41e047
+* https://eli.thegreenplace.net/2015/memory-layout-of-multi-dimensional-arrays
+* https://eli.thegreenplace.net/2018/elegant-python-code-for-a-markov-chain-text-generator/
+* https://hackernoon.com/automated-text-generator-using-markov-chain-de999a41e047
 
-http://www.emergentmind.com/neural-network
-http://www.cs.toronto.edu/~tijmen/csc321/
+* http://www.emergentmind.com/neural-network
+* http://www.cs.toronto.edu/~tijmen/csc321/
