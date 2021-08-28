@@ -42,8 +42,8 @@ class MNIST_dataset(Dataset):
 
 
 if __name__ == '__main__':
-    handwritten_digits = scipy.io.loadmat("natasy/data/ex3data1.mat")
-    mnist = MNIST_dataset(handwritten_digits['X'].T, handwritten_digits['y'].T, dev_size=0.2)
+    handwritten_digits = scipy.io.loadmat("data/ex3data1.mat")
+    mnist = MNIST_dataset(handwritten_digits['X'], handwritten_digits['y'], dev_size=0.2111)
 
     nn01 = NeuralNetwork(n_features=400, n_classes=10)
     nn01.add_layer(100, activation=Activation.leaky_relu, dropout_keep_prob=1)

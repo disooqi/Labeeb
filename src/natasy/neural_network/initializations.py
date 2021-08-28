@@ -6,7 +6,7 @@ class Initialization:
     zeros_initialization = None
 
 
-def _zeros_initialization(n_units, n_in):
+def _zeros_initialization(n_units: int, n_in: int):
     W = np.zeros((n_units, n_in))
     b = np.zeros((n_units, 1))
     return W, b
@@ -15,7 +15,7 @@ def _zeros_initialization(n_units, n_in):
 def _weights_initialization(n_units, n_in):
     # multiplying W by a small number makes the learning fast
     # however from a practical point of view when multiplied by 0.01 using l>2 the NN does not converge
-    # that is beacuse it runs into gradients vanishing problem
+    # that is because it runs into gradients vanishing problem
     W = np.random.randn(n_units, n_in) * 0.01
     b = np.zeros((n_units, 1))
     return W, b

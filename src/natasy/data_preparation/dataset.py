@@ -1,25 +1,22 @@
 import math
 import numpy as np
-from sklearn.model_selection import train_test_split
 from collections import namedtuple
 
 
-#X should be in shape m*n where m is the number of samples and n is the number of features as well as the y_True
-#the function shuffles the dataset
-
 class Dataset:
-    def __init__(self, X, y, dev_size, name=None, shuffle=True, normalize_input_features=True, split=True):
+    def __init__(self, X, y, dev_size, name=None, shuffle=True, normalize_input_features=True):
         self.name = name
         self.dev_size = dev_size
         self.shuffle = shuffle
         y, self.classes = self.prepare_target(y)
 
-        if split:
-            X_train, X_dev, y_train, y_dev = train_test_split(X.T, y.T, shuffle=shuffle, test_size=dev_size)
-            self.y_train, self.y_dev = y_train.T, y_dev.T
-            self.X_train, self.X_dev = X_train.T, X_dev.T
-        else:
-            self.X_train, self.y_train = X, y
+        if shuffle:
+            X, y = self.unison_shuffled_copies(X, y.T)
+
+        n_dev_sample = int(dev_size*len(X))
+        self.X_train, self.X_dev = X[n_dev_sample:, :].T, X[:n_dev_sample, :].T
+        self.y_train, self.y_dev = y[n_dev_sample:, :].T, y[:n_dev_sample, :].T
+
         self.n, self.m = self.X_train.shape
 
         if normalize_input_features:
@@ -57,6 +54,13 @@ class Dataset:
 
     def accuracy(self, network, training_accuracy):
         raise NotImplementedError
+
+    @staticmethod
+    def unison_shuffled_copies(a, b):
+        print(len(a), len(b))
+        assert len(a) == len(b)
+        p = np.random.permutation(len(a))
+        return a[p], b[p]
 
 
 

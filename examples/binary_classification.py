@@ -6,10 +6,9 @@ from natasy.optimization import Optimizer
 
 class MyDataset(Dataset):
     def __init__(self, dev_size=0.2, shuffle=False, normalize_input_features=False, name='ex2data1'):
-        data = np.loadtxt('../data/ex2data1.txt', delimiter=',')
+        data = np.loadtxt('data/ex2data1.txt', delimiter=',')
         features = data[:, :2]
         y = data[:, 2:]
-
         super().__init__(features.T, y.T, dev_size=dev_size, shuffle=shuffle, normalize_input_features=normalize_input_features, name=name)
 
     @staticmethod
