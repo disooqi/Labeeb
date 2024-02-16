@@ -3,10 +3,7 @@ A machine learning engine designed and developed to be both easy to use and sour
 Backpropagation is implemented in boring detail such that derivative steps is taken carefully and without any implicit or hidden 
 details
 
-Natasy is Arabic word means the skilled scientist, or the clever doctor.
-
-
-Natasy is intended to be easy to use and intuitive to build your neural network.
+Labeeb is Arabic word means smart. It is intended to be easy to use and intuitive to build your neural network.
 To build you network to classify the will known MNIST dataset:
 1. Define your network
 ```python

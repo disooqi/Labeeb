@@ -1,6 +1,6 @@
 import numpy as np
 
-from natasy.neural_network import Initialization, initializations
+from labeeb.neural_network import Initialization, initializations
 
 
 def test_initialization():

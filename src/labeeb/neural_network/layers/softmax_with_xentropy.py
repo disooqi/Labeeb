@@ -1,5 +1,5 @@
 import numpy as np
-from natasy.neural_network.layers import OutputLayer
+from labeeb.neural_network.layers import OutputLayer
 
 
 class SoftmaxWithXEntropy(OutputLayer):

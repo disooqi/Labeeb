@@ -1,4 +1,4 @@
-from natasy.neural_network import Activation
+from labeeb.neural_network import Activation
 
 
 def test_activation():

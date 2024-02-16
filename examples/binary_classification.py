@@ -1,7 +1,7 @@
 import numpy as np
-from natasy.data_preparation.dataset import Dataset
-from natasy.neural_network.network import NeuralNetwork
-from natasy.optimization import Optimizer
+from labeeb.data_preparation.dataset import Dataset
+from labeeb.neural_network.network import NeuralNetwork
+from labeeb.optimization import Optimizer
 
 
 class MyDataset(Dataset):

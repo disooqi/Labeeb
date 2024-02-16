@@ -1,5 +1,5 @@
 import numpy as np
-from natasy.neural_network.layers.neuralnetworklayer import NeuralNetworkLayer
+from labeeb.neural_network.layers.neuralnetworklayer import NeuralNetworkLayer
 
 
 class FullyConnectedLayer(NeuralNetworkLayer):

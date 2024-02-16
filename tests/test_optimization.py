@@ -1,4 +1,4 @@
-from natasy.optimization import Optimizer
+from labeeb.optimization import Optimizer
 
 
 def test_optimizer():
