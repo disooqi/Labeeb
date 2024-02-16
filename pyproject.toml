@@ -1,0 +1,28 @@
+[tool.poetry]
+name = "labeeb"
+version = "0.0.7"
+description = "A Deep Learning Library that make sense"
+authors = ["Mohamed Eldesouki <github@eldesouki.com>"]
+license = "Academic Free License (AFL) v. 3.0"
+readme = "README.md"
+packages = [
+    {include = "labeeb", from = "src"},
+]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+numpy = "^1.21"
+scipy = "^1.7"
+tqdm = "^4.62"
+
+[tool.poetry.group.dev]
+optional = true
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.0.0"
+keras = "2.2.5"
+
+[build-system]
+requires = ["poetry-core", "setuptools>=42", "wheel"]
+build-backend = "poetry.core.masonry.api"
+# build-backend = "setuptools.build_meta"
