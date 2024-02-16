@@ -4,11 +4,11 @@ In Keras example, they claim that they achieved about 98.40% accuracy. Using alm
 98.58%
 """
 import numpy as np
-from keras.datasets import mnist
-from natasy.data_preparation import Dataset
-from natasy.neural_network.network import NeuralNetwork
-from natasy.neural_network import Activation
-from natasy.optimization import Optimizer
+# from keras.datasets import mnist
+from labeeb.data_preparation import Dataset
+from labeeb.neural_network.network import NeuralNetwork
+from labeeb.neural_network import Activation
+from labeeb.optimization import Optimizer
 
 class MNISTDataset(Dataset):
     def __init__(self, *args, **kwargs):
@@ -55,7 +55,11 @@ class MNISTDataset(Dataset):
 
 
 if __name__ == '__main__':
-    (x_train, y_train), (x_test, y_test) = mnist.load_data()
+    with np.load("./data/mnist.npz", allow_pickle=True) as f:
+        x_train, y_train = f['x_train'], f['y_train']
+        x_test, y_test = f['x_test'], f['y_test']
+    # return (x_train, y_train), (x_test, y_test)
+    # (x_train, y_train), (x_test, y_test) = mnist.load_data()
     mnist = MNISTDataset(train=(x_train, y_train), dev=(x_test, y_test))
 
     nn01 = NeuralNetwork(n_features=784, n_classes=10)
