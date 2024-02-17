@@ -7,19 +7,22 @@ Labeeb is Arabic word means smart. It is intended to be easy to use and intuitiv
 To build you network to classify the will known MNIST dataset:
 1. Define your network
 ```python
-my_NN = NeuralNetwork(n_features=400, n_classes=10)
-```
-2. Build up the layers as you want
-```python
-my_NN.add_layer(100, activation=Activation.leaky_relu, dropout_keep_prob=1)    
-my_NN.add_layer(12, activation=Activation.softmax_stable, output_layer=True)
-```
-3. Finally, call the optimizer
-```python
+from labeeb.neural_network.network import NeuralNetwork
+from labeeb.neural_network.activations import Activation
+from labeeb.optimization import Optimizer
+
+
+my_nn = NeuralNetwork(n_features=400, n_classes=10)
+
+# Build up the layers as you want
+my_nn.add_layer(100, activation=Activation.leaky_relu, dropout_keep_prob=1)    
+my_nn.add_layer(12, activation=Activation.softmax_stable, output_layer=True)
+
+# Finally, call the optimizer
 gd_optimizer = Optimizer(loss='multinomial_cross_entropy', method='adam') # gd-with-momentum gradient-descent rmsprop adam
-gd_optimizer.minimize(nn01, epochs=100, mini_batch_size=5000, learning_rate=.1, regularization_parameter=0, dataset=mnist)
+gd_optimizer.minimize(my_nn, epochs=100, mini_batch_size=5000, learning_rate=.1, regularization_parameter=0, dataset=mnist)
 ```
 
-The following is the complete source code for the example. More examples can be found under Natasy/examples.
+The following is the complete source code for the example. More examples can be found under Labeeb/examples.
 
 
